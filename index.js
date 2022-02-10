@@ -1,15 +1,63 @@
 let inquirer = require("inquirer");
+let fs = require("fs");
 
 inquirer.prompt([
     {
+        type: "input",
+        message: "What is your title?",
+        name: "title",
+    },
+    {
+        type: "input",
+        message: "What is your description?",
+        name: "description",
+    },
+    {
+        type: "input",
+        message: "What is your installation instructions?",
+        name: "installation",
+    },
+    {
+        type: "input",
+        message: "How will your repo be used?",
+        name: "usage",
+    },
+    {
+        message: "Which license would you like to use?",
         type: "list",
-        message: "What would you like to do?",
-
-    }
+        name: "license",
+        choices: ["MIT License", "Apache License 2.0", "GNU GPLv3", "ISC License"]
+    },
+    {
+        type: "input",
+        message: "How To contribute?",
+        name: "contributing",
+    },
+    {
+        type: "input",
+        message: "testing?",
+        name: "tests",
+    },
+    {
+        type: "input",
+        message: "What is your github username?",
+        name: "username",
+    },
+    {
+        type: "input",
+        message: "What is your email address?",
+        name: "email",
+    },
 ])
-.then((answers) => {
-    let readme = 
-`# ${answers.title}
+    .then((answers) => {
+        let badge;
+        if (answers.license === "MIT License") {
+        }
+        let readme =
+            `
+# ${answers.title}
+
+<img src="https://img.shields.io/badge/License-${answers.license}-blue">
 
 ## Description
 
@@ -51,4 +99,12 @@ You can reach the creator of this project at:
 [email]((mailto:${answers.email}))
 ${answers.questions}
     `
+        fs.writeFile('GeneratedREADME.md', readme, function (error) {
+            if (error) {
+                console.log(error);
+            }
+            else {
+                console.log('Success!');
+            }
+        });
     });
